@@ -1,0 +1,81 @@
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Local Gradle config
+.gradle/
+build/
+**/build/
+
+# Gradle caches
+.gradle/
+!gradle/wrapper/gradle-wrapper.jar
+gradle-app.setting
+
+# Local properties
+local.properties
+
+# =========================
+# Android / Kotlin / Java
+# =========================
+# Generated files
+bin/
+gen/
+out/
+captures/
+tmp/
+*.class
+*.dex
+*.apk
+*.ap_
+*.aab
+*.aar
+*.log
+*.keystore
+*.jks
+
+# =========================
+# Kotlin Symbol Processing (KSP)
+# =========================
+**/build/generated/ksp/
+
+# =========================
+# Android Studio specific
+# =========================
+.navigation/
+caches/
+*.hprof
+.externalNativeBuild/
+.cxx/
+*.orig
+*.rej
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# =========================
+# IDE specific
+# =========================
+.vscode/
+.idea/modules.xml
+.idea/workspace.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+
+# =========================
+# Jetpack Compose previews
+# =========================
+*.preview.xml
+
+# =========================
+# Others
+# =========================
+# User-specific configurations
+.env
+*.local
