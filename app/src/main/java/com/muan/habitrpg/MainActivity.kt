@@ -14,8 +14,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.muan.habitrpg.ui.theme.HabitRPGTheme
 
 class MainActivity : ComponentActivity() {
+
+    private val database by lazy {
+        (application as MyApplication).database
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         enableEdgeToEdge()
         setContent {
             HabitRPGTheme {
