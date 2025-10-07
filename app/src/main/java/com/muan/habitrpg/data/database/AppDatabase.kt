@@ -28,9 +28,8 @@ abstract class AppDatabase : RoomDatabase() {
         private var INSTANCE: AppDatabase? = null
 
         fun getDatabase(context: Context): AppDatabase {
-            Log.d("AppDatabase", "getDatabase викликано")
             return INSTANCE ?: synchronized(this) {
-                Log.d("AppDatabase", "Створення нового екземпляру бази даних")
+                // Create new database instance
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
@@ -39,7 +38,6 @@ abstract class AppDatabase : RoomDatabase() {
                     .addCallback(DatabaseCallback())
                     .build()
                 INSTANCE = instance
-                Log.d("AppDatabase", "База даних створена")
                 instance
             }
         }
@@ -48,7 +46,8 @@ abstract class AppDatabase : RoomDatabase() {
     private class DatabaseCallback : RoomDatabase.Callback() {
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
-            Log.d("AppDatabase", "onCreate callback - заповнюємо базу даних")
+
+            // Populate the database
             INSTANCE?.let { database ->
                 CoroutineScope(Dispatchers.IO).
                 launch {
@@ -60,25 +59,23 @@ abstract class AppDatabase : RoomDatabase() {
 }
 
 private suspend fun populateDatabase(db: AppDatabase) {
-    Log.d("AppDatabase", "populateDatabase - початок")
     val userDao = db.userDao()
     val statDao = db.statDao()
     val activityDao = db.activityDao()
 
-    // Створити користувача
+    // Create user
     userDao.insertUser(User(id = 1, username = "Mustard Andrew"))
     Log.d("AppDatabase", "User створено")
 
-    // Створити стати
+    // Create stats
     val stats = listOf(
-        Stat(userId = 1, statType = "STR", currentXp = 0, currentLevel = 1), // Сила
-        Stat(userId = 1, statType = "INT", currentXp = 0, currentLevel = 1), // Розум
-        Stat(userId = 1, statType = "DEX", currentXp = 0, currentLevel = 1), // Спритність
+        Stat(userId = 1, statType = "STR", currentXp = 0, currentLevel = 1), // Strong
+        Stat(userId = 1, statType = "INT", currentXp = 0, currentLevel = 1), // Intellect
+        Stat(userId = 1, statType = "DEX", currentXp = 0, currentLevel = 1), // Dexterity
     )
     statDao.insertAll(stats)
-    Log.d("AppDatabase", "Stats створено: ${stats.size} записів")
 
-    // Створити 4 базові активності (твої!)
+    // Create 4 base activities (my activities)
     val activities = listOf(
         Activity(name = "Віджимання 20 разів", statType = "STR", baseXpReward = 10),
         Activity(name = "Читання 30 хв", statType = "INT", baseXpReward = 15),
@@ -86,8 +83,4 @@ private suspend fun populateDatabase(db: AppDatabase) {
         Activity(name = "Малювання 15 хв", statType = "DEX", baseXpReward = 12)
     )
     activityDao.insertAll(activities)
-
-    Log.d("AppDatabase", "Activities створено: ${activities.size} записів")
-
-    Log.d("AppDatabase", "populateDatabase - завершено")
 }
